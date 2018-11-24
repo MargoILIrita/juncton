@@ -7,7 +7,7 @@ import bot_telegram
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
-tommy_Face = face_recognition.load_image_file("images-of-me/img.jpg")
+tommy_Face = face_recognition.load_image_file("img/img.jpg")
 tommy_face_encoding = face_recognition.face_encodings(tommy_Face)[0]
 
 # Load a second sample picture and learn how to recognize it.
@@ -31,12 +31,8 @@ face_names = []
 process_this_frame = True
 
 
-sttime = time.time()
 isNotificationNeed = True
 while True:
-    if (time.time() - sttime) > 600:
-        isNotificationNeed = True
-        sttime = time.time()
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
