@@ -1,7 +1,7 @@
 import os
 import time
 
-import face_recognition
+# import face_recognition
 import cv2
 
 import bot_telegram
@@ -14,9 +14,22 @@ def fill_arrays():
         id, name = file.split('__')
         name = name.split('.')[0]
         map[i] = (id,name,True)
-        encodings.append(face_recognition.
-                  face_encodings(face_recognition.load_image_file(file))[0])
+        # encodings.append(face_recognition.
+        #           face_encodings(face_recognition.load_image_file(file))[0])
         i+=1
+    return map, encodings
+
+def updates_arrays(map, encodings):
+    names = []
+    for ind in map:
+        names.append(map[ind][1])
+    for file in os.listdir('img'):
+        id, name = file.split('__')
+        name = name.split('.')[0]
+        if name not in names:
+            map[len(map)] = (id,name,True)
+            # encodings.append(face_recognition.
+            #       face_encodings(face_recognition.load_image_file(file))[0])
     return map, encodings
 
 
@@ -48,10 +61,15 @@ face_locations = []
 face_encodings = []
 face_names = []
 process_this_frame = True
+map = []
+known_face_encodings = []
 
 while True:
-    map, known_face_encodings = fill_arrays()
+    if len(map) > 0:
+        map, known_face_encodings = updates_arrays(map, known_face_encodings)
     # Grab a single frame of video
+    else:
+        map, known_face_encodings = fill_arrays()
     ret, frame = video_capture.read()
 
     # Resize frame of video to 1/4 size for faster face recognition processing
@@ -78,6 +96,8 @@ while True:
                 if map[first_match_index][2]:
                     bot_telegram.send_mess(map[first_match_index][0],
                                            "Congratulations {0}! You have a discount!".format(name))
+                    map[first_match_index] = \
+                        (map[first_match_index][0],map[first_match_index][1],False)
                     face_names.append(name)
 
     process_this_frame = not process_this_frame
