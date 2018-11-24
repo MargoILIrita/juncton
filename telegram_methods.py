@@ -1,7 +1,7 @@
 import os
 import time
 
-# import face_recognition
+import face_recognition
 import cv2
 
 import bot_telegram
@@ -14,8 +14,8 @@ def fill_arrays():
         id, name = file.split('__')
         name = name.split('.')[0]
         map[i] = (id,name,True)
-        # encodings.append(face_recognition.
-        #           face_encodings(face_recognition.load_image_file(file))[0])
+        encodings.append(face_recognition.
+                   face_encodings(face_recognition.load_image_file('img/'+file))[0])
         i+=1
     return map, encodings
 
@@ -28,8 +28,8 @@ def updates_arrays(map, encodings):
         name = name.split('.')[0]
         if name not in names:
             map[len(map)] = (id,name,True)
-            # encodings.append(face_recognition.
-            #       face_encodings(face_recognition.load_image_file(file))[0])
+            encodings.append(face_recognition.
+                  face_encodings(face_recognition.load_image_file(file))[0])
     return map, encodings
 
 
