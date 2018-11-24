@@ -15,7 +15,7 @@ def fill_arrays():
         name = name.split('.')[0]
         map[i] = (id,name,True)
         encodings.append(face_recognition.
-                  face_encodings(face_recognition.load_image_file(file))[0])
+                  face_encodings(face_recognition.load_image_file('img/'+file))[0])
         i+=1
     return map, encodings
 
@@ -51,6 +51,7 @@ process_this_frame = True
 
 while True:
     map, known_face_encodings = fill_arrays()
+    print('uploaded img')
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
