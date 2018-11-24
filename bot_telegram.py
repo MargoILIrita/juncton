@@ -28,6 +28,9 @@ def send_mess(chat, text):
     return response
 
 
+
+
+
 def main():
     user_id = (110541740, 110541740)
     user_name = user_id[0]

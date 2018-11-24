@@ -1,5 +1,6 @@
 import face_recognition
 import cv2
+import bot_telegram
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -64,6 +65,7 @@ while True:
                 first_match_index = matches.index(True)
                 name = known_face_names[first_match_index]
                 print("Tommy in picture")
+                bot_telegram.send_mess(110541740, "You have a discount!")
             else: print("Tommy not in picture")
             face_names.append(name)
 
