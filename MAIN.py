@@ -7,29 +7,41 @@ import cv2
 import bot_telegram
 
 def fill_arrays():
-    files = os.listdir('img/')
-    print(files)
+    map = {}
+    encodings = []
+    i = 0
+    for file in os.listdir('img'):
+        id, name = file.split('__')
+        name = name.split('.')[0]
+        map[i] = (id,name,True)
+        encodings.append(face_recognition.
+                  face_encodings(face_recognition.load_image_file(file))[0])
+        i+=1
+    return map, encodings
+
+
 
 
 video_capture = cv2.VideoCapture(0)
 
-# Load a sample picture and learn how to recognize it.
-tommy_Face = face_recognition.load_image_file("img/img.jpg")
-tommy_face_encoding = face_recognition.face_encodings(tommy_Face)[0]
-
-# Load a second sample picture and learn how to recognize it.
-biden_image = face_recognition.load_image_file("unknown-images/winner.jpg")
-biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
+# # Load a sample picture and learn how to recognize it.
+# tommy_Face = face_recognition.load_image_file("img/img.jpg")
+# tommy_face_encoding = face_recognition.face_encodings(tommy_Face)[0]
+#
+# # Load a second sample picture and learn how to recognize it.
+# biden_image = face_recognition.load_image_file("unknown-images/winner.jpg")
+# biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
 
 # Create arrays of known face encodings and their names
-known_face_encodings = [
-    tommy_face_encoding,
-    biden_face_encoding
-]
-known_face_names = [
-    "Tommy",
-    "Second Tommy"
-]
+# known_face_encodings = [
+#     tommy_face_encoding,
+#     biden_face_encoding
+# ]
+# known_face_names = [
+#     "Tommy",
+#     "Second Tommy"
+# ]
+
 
 # Initialize some variables
 face_locations = []
@@ -37,9 +49,8 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
-sttime = time.time()
-isNotificationNeed = True
 while True:
+    map, known_face_encodings = fill_arrays()
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
@@ -59,17 +70,15 @@ while True:
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
             matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-            name = "Unknown"
 
             # If a match was found in known_face_encodings, just use the first one.
             if True in matches:
                 first_match_index = matches.index(True)
-                name = known_face_names[first_match_index]
-                if isNotificationNeed:
-                    bot_telegram.send_mess(110541740, "Congratulations! You have a discount!")
-                    isNotificationNeed = False
-
-            face_names.append(name)
+                name = map[first_match_index][1]
+                if map[first_match_index][2]:
+                    bot_telegram.send_mess(map[first_match_index][0],
+                                           "Congratulations {0}! You have a discount!".format(name))
+                    face_names.append(name)
 
     process_this_frame = not process_this_frame
 
