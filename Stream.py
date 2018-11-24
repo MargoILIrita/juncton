@@ -1,3 +1,5 @@
+import time
+
 import face_recognition
 import cv2
 
@@ -11,6 +13,8 @@ import cv2
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
+import bot_telegram
+
 video_capture = cv2.VideoCapture(0)
 
 # Load a sample picture and learn how to recognize it.
@@ -37,6 +41,7 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
+sttime = time.time()
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -46,6 +51,11 @@ while True:
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
     rgb_small_frame = small_frame[:, :, ::-1]
+
+    isNotificationNeed = True
+    if (time.time() - sttime) > 600:
+        isNotificationNeed = True
+        sttime = time.time()
 
     # Only process every other frame of video to save time
     if process_this_frame:
@@ -63,6 +73,9 @@ while True:
             if True in matches:
                 first_match_index = matches.index(True)
                 name = known_face_names[first_match_index]
+                if isNotificationNeed:
+                    bot_telegram.send_mess(110541740, "Congratulations! You have a discount!")
+                    isNotificationNeed = False
 
             face_names.append(name)
 
