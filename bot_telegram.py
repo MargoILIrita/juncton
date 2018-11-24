@@ -2,12 +2,14 @@ from time import sleep
 
 import requests
 
-url = "https://api.telegram.org/bot704225691:AAE3-FAZdTpmJAbnfrxWlFxoUsBawuy_bjk/"
+token = '704225691:AAE3-FAZdTpmJAbnfrxWlFxoUsBawuy_bjk'
+url = "https://api.telegram.org/bot"+ token +"/"
+
 
 
 def get_updates_json(request):
-    print(request + 'getUpdates')
-    response = requests.get(request + 'getUpdates')
+    params = {'timeout': 100, 'offset': None}
+    response = requests.get(request + 'getUpdates', data=params)
     return response.json()
 
 

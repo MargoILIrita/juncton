@@ -42,6 +42,7 @@ face_names = []
 process_this_frame = True
 
 sttime = time.time()
+isNotificationNeed = True
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -51,11 +52,6 @@ while True:
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
     rgb_small_frame = small_frame[:, :, ::-1]
-
-    isNotificationNeed = True
-    if (time.time() - sttime) > 600:
-        isNotificationNeed = True
-        sttime = time.time()
 
     # Only process every other frame of video to save time
     if process_this_frame:

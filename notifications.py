@@ -1,6 +1,6 @@
 from pyfcm import FCMNotification
 
-push_service = FCMNotification(api_key="<api-key>")
+push_service = FCMNotification(api_key="junkies.junction.com.keno2")
 registration_id = "<device registration_id>"
 message_title = "Uber update"
 message_body = "Hi john, your customized news for today is ready"
