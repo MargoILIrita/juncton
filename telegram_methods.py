@@ -37,23 +37,7 @@ def updates_arrays(map, encodings):
 
 video_capture = cv2.VideoCapture(0)
 
-# # Load a sample picture and learn how to recognize it.
-# tommy_Face = face_recognition.load_image_file("img/img.jpg")
-# tommy_face_encoding = face_recognition.face_encodings(tommy_Face)[0]
-#
-# # Load a second sample picture and learn how to recognize it.
-# biden_image = face_recognition.load_image_file("unknown-images/winner.jpg")
-# biden_face_encoding = face_recognition.face_encodings(biden_image)[0]
 
-# Create arrays of known face encodings and their names
-# known_face_encodings = [
-#     tommy_face_encoding,
-#     biden_face_encoding
-# ]
-# known_face_names = [
-#     "Tommy",
-#     "Second Tommy"
-# ]
 
 
 # Initialize some variables

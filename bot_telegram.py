@@ -42,7 +42,7 @@ token = '704225691:AAE3-FAZdTpmJAbnfrxWlFxoUsBawuy_bjk'
 
 def start(bot, update):
     update.message.reply_text(
-        'Hello {}! Please, send me your selfie as a document'.format(update.message.from_user.first_name))
+        'Hello {}! Please, take a new selfie and it to me as a file'.format(update.message.from_user.first_name))
 
 def upload_img(bot, update):
     id = 'img/' + update.message.chat.id.__str__() + '__' + update.message.from_user.first_name.__str__()
@@ -58,9 +58,7 @@ def upload_img(bot, update):
     f.flush()
     f.close()
     print('all')
-    update.message.reply_text("Thanks! Now go to the camera")
-
-
+    update.message.reply_text("Thanks! Now go find cameras")
 
 
 updater = Updater(token)
